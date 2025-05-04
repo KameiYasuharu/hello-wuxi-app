@@ -15,7 +15,6 @@ phases:
     commands:
       - echo "Copying war file to EC2..."
       - aws s3 sync webapps s3://map-ken-kamei-s3-test/HelloWuxi/
-      - aws ec2 send-command --instance-ids i-0680c67e0108cbc54 --commands "sudo aws s3 cp s3://map-ken-kamei-s3-test/HelloWuxi /opt/apache-tomcat-9.0.100/webapps/HelloWuxi --recursive && sudo chown -R tomcat:tomcat /opt/apache-tomcat-9.0.100/webapps/HelloWuxi"
 
 artifacts:
   files:
