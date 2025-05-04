@@ -1,0 +1,1 @@
+echo "# Ignore all files in this directory" > my_directory/.gitignore
