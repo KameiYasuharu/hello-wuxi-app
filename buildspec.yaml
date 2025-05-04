@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  build:
+    commands:
+      - echo "Building the Java code..."
+      - mkdir -p webapps/WEB-INF/classes/com/example/demo
+      - mkdir -p webapps/WEB-INF/lib
+      - javac -classpath "lib/*" src/main/java/com/example/demo/HelloWuxi.java -d webapps/WEB-INF/classes
+      - cp lib/javax.servlet-api-4.0.1.jar webapps/WEB-INF/lib/
+  post_build:
+    commands:
+      - echo "Copying war file to EC2..."
+      - aws s3 sync webapps s3://map-ken-kamei-s3-test/HelloWuxi/
+      - aws ec2 send-command --instance-ids i-0680c67e0108cbc54 --commands "sudo aws s3 cp s3://map-ken-kamei-s3-test/HelloWuxi /opt/apache-tomcat-9.0.100/webapps/HelloWuxi --recursive && sudo chown -R 777 /opt/apache-tomcat-9.0.100/webapps/HelloWuxi"
+
+artifacts:
+  files:
+    - webapps/**/*
+  base-directory: webapps
+  discard-paths: no
