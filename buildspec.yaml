@@ -3,14 +3,13 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17
+      java: corretto8
   build:
     commands:
       - echo "Building the Java code..."
       - mkdir -p webapps/WEB-INF/classes/com/example/demo
       - mkdir -p webapps/WEB-INF/lib
       - javac -classpath "lib/*" src/main/java/com/example/demo/HelloWuxi.java -d webapps/WEB-INF/classes
-      - cp lib/javax.servlet-api-4.0.1.jar webapps/WEB-INF/lib/
   post_build:
     commands:
       - aws s3 sync webapps s3://map-ken-kamei-s3-test/HelloWuxi/
