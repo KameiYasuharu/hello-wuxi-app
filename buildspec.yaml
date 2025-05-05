@@ -13,7 +13,6 @@ phases:
       - cp lib/javax.servlet-api-4.0.1.jar webapps/WEB-INF/lib/
   post_build:
     commands:
-      - echo "Copying war file to EC2..."
       - aws s3 sync webapps s3://map-ken-kamei-s3-test/HelloWuxi/
 
 artifacts:
